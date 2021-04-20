@@ -1,0 +1,71 @@
+<html>
+<head>
+<title> Custom Game </title>
+<script src="https://simplycodingcourses.com/files/simply.js"></script>
+<script>
+function start(){
+sjs.open("target",500,400);
+var background = new sjs.Image("Images/background.png")
+background.setSize(2500, 500);
+//Player Properties
+var player = new sjs.Image("Images/bug.gif");
+player.type = "player";
+player.setSize(95,82);
+player.setGravity(3);
+player.bottom();
+player.friction = .5;
+sjs.scrollable(player,background);
+
+sjs.keyDown(RIGHT_KEY, function(){
+player.setImage("Images/fish_right.png");
+player.pushRight();
+}); 
+
+ sjs.keyDown(LEFT_KEY, function(){
+player.setImage("Images/fish_left.png");
+player.pushLeft();
+});
+
+
+sjs.keyDown(UP_KEY, function(){
+player.pushUp();
+}); 
+
+ sjs.keyDown(DOWN_KEY, function(){
+player.pushDown();
+}); 
+
+//Powerup
+setInterval(function(){
+	 var x = Math.floor(Math.random() * 783);
+var y = Math.floor(Math.random() * 470); 
+ var powerUp = new sjs.Image("Images/pizza.png");
+powerUp.type = "powerUp";
+powerUp.setGravity();
+powerUp.setSize(17,30);
+powerUp.noBounds = true;
+ powerUp.moveTo(x, y); 
+  powerUp.friction = .2; 
+}, 5000);
+sjs.onHit("powerUp","bottom_screen",function(x,y){
+x.destroy();
+});
+//Score
+var score = 0;
+var score_txt = new sjs.Text("Score: 0", 21, "orange")
+score = score + 1;
+score_txt.setText("Score: "+score);
+localStorage.setItem("score", score);
+
+if(score >= 10){
+window.location = "win.html";
+}
+} //end start
+</script>
+</head>
+<body onload="start()">
+<h1> Custom Game </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html> 
